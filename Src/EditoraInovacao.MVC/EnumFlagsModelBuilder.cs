@@ -1,18 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : IntegracaoService.Commons.MVC
-// Author           : Guilherme Branco Stracini
-// Created          : 18/04/2020
-//
-// Last Modified By : Guilherme Branco Stracini
-// Last Modified On : 17/01/2023
-// ***********************************************************************
-// <copyright file="EnumFlagsModelBuilder.cs" company="Guilherme Branco Stracini ME">
-//     © 2012-2023 Guilherme Branco Stracini ME, All Rights Reserved
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
@@ -44,7 +30,6 @@ public sealed class EnumFlagsModelBinder : DefaultModelBinder
     {
         var propertyType = propertyDescriptor.PropertyType;
 
-        // Check if the property type is an enum with the flag attribute
         if (
             !propertyType.IsEnum
             || !propertyType.GetCustomAttributes(typeof(FlagsAttribute), false).Any()
@@ -70,7 +55,6 @@ public sealed class EnumFlagsModelBinder : DefaultModelBinder
             );
         }
 
-        // In case it is a single value
         if (value is not string[] strings)
         {
             return value.GetType().IsEnum
@@ -83,9 +67,7 @@ public sealed class EnumFlagsModelBinder : DefaultModelBinder
                 );
         }
 
-        // Create flag value from posted values
         var flagValue = strings.Aggregate(0, (acc, i) => acc | (int)Enum.Parse(propertyType, i));
-        // In case it is a checkbox list/dropdown list/radio/button list
         return Enum.ToObject(propertyType, flagValue);
     }
 
