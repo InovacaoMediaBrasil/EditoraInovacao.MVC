@@ -114,7 +114,7 @@ jobs:
     name: Create Release
     needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ needs.build.outputs.src == 'true' }}
+    if: ${{ needs.build.outputs.changes == 'true' }}
 
     steps:
 
