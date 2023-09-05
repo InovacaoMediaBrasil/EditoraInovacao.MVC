@@ -104,7 +104,7 @@ jobs:
       - name: Publish package to NuGet
         if: steps.changes.outputs.src == 'true'
         run: |
-          nuget pack ${{ env.solution }} -Version ${{ env.version }}
+          nuget pack Src/${{ env.projectPath }} -Version ${{ env.version }}
           nuget push Src/${{ env.projectPath }}/bin/Release/${{ env.projectPath }}.${{ env.version }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
 
       - name: Set env variables to output
