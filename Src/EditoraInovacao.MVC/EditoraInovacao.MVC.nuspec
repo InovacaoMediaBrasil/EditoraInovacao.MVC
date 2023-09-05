@@ -7,7 +7,7 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <projectUrl>https://inovacaomediabrasil.github.io/EditoraInovacao.MVC</projectUrl>
-    <repository type="git" url="https://github.com/InovacaoMediaBRasil/EditoraInovacao.MVC.git" />
+    <repository type="git" url="https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC.git" />
     <icon>logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
@@ -19,8 +19,8 @@
     </dependencies>
   </metadata>
   <files>
-		<file src="bin\$configuration$\$id$.pdb" target="lib\net48\" />
+    <file src="bin\$configuration$\$id$.pdb" target="lib\net48\" />
     <file src="..\..\logo.png" />
     <file src="..\..\readme.md" />
-	</files>
+  </files>
 </package>
