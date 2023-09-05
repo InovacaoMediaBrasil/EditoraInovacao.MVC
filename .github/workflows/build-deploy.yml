@@ -83,10 +83,6 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
-      - name: Setup VSTest
-        uses: darenm/Setup-VSTest@v1.2
-        if: steps.changes.outputs.src == 'true'
-
       - name: Restore NuGet Packages
         run: nuget restore "${{ env.solution }}.sln"
         if: steps.changes.outputs.src == 'true'
@@ -105,7 +101,7 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: |
           nuget pack Src/${{ env.projectPath }} -Version ${{ env.version }} -Prop Configuration=Release
-          nuget push Src/${{ env.projectPath }}/bin/Release/${{ env.projectPath }}.${{ env.version }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
+          nuget push ${{ env.projectPath }}.${{ env.version }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
 
       - name: Set env variables to output
         if: steps.changes.outputs.src == 'true'
@@ -113,7 +109,6 @@ jobs:
         run: |    
           echo "solution=${{ env.solution }}" >> $env:GITHUB_OUTPUT
           echo "version=${{ env.version }}" >> $env:GITHUB_OUTPUT
-
 
   create_release:
     name: Create Release
