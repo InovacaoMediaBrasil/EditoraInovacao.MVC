@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://inovacaomediabrasil.github.io/EditoraInovacao.MVC</projectUrl>
+    <repository type="git" url="https://github.com/InovacaoMediaBRasil/EditoraInovacao.MVC.git" />
+    <icon>logo.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2023 Guilherme Branco Stracini ME</copyright>
+    <tags>Editora Inovação MVC Helpers .NET Framework</tags>
+    <readme>readme.md</readme>
+    <dependencies>
+      <group targetFramework=".NETFramework4.8"/>
+    </dependencies>
+  </metadata>
+  <files>
+		<file src="bin\$configuration$\$id$.pdb" target="lib\net48\" />
+    <file src="..\..\logo.png" />
+    <file src="..\..\readme.md" />
+	</files>
+</package>
