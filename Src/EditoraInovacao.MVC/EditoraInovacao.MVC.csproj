@@ -112,6 +112,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="packages.lock.json" />
     <None Include="Properties\Version.txt" />
@@ -121,11 +122,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MSBuild.PublishNuget.Target.5.0.11\build\MSBuild.PublishNuget.Target.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuild.PublishNuget.Target.5.0.11\build\MSBuild.PublishNuget.Target.targets'))" />
     <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
     <Error Condition="!Exists('..\..\packages\MSBuild.Version.Target.4.0.47\build\MSBuild.Version.Target.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuild.Version.Target.4.0.47\build\MSBuild.Version.Target.targets'))" />
   </Target>
-  <Import Project="..\..\packages\MSBuild.PublishNuget.Target.5.0.11\build\MSBuild.PublishNuget.Target.targets" Condition="Exists('..\..\packages\MSBuild.PublishNuget.Target.5.0.11\build\MSBuild.PublishNuget.Target.targets')" />
   <Import Project="..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
   <Import Project="..\..\packages\MSBuild.Version.Target.4.0.47\build\MSBuild.Version.Target.targets" Condition="Exists('..\..\packages\MSBuild.Version.Target.4.0.47\build\MSBuild.Version.Target.targets')" />
 </Project>
