@@ -1,0 +1,157 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    outputs:
+      solution: ${{ steps.outvars.outputs.solution }}
+      version: ${{ steps.outvars.outputs.version }}
+      changes: ${{ steps.changes.outputs.src }}
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - "Src/**"
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        if: steps.changes.outputs.src == 'true'
+        with:
+          distribution: 'temurin'
+          java-version: 19.0.2+7
+
+      - name: Set environment variables
+        if: steps.changes.outputs.src == 'true'
+        id: envvars
+        run: |
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "projectPath=$((Get-ChildItem -Path .\Src\ -Directory | Select-Object -First 1).Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        if: steps.changes.outputs.src == 'true'
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        if: steps.changes.outputs.src == 'true'
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true' && steps.changes.outputs.src == 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
+      - name: Setup MSBuild Path
+        uses: microsoft/setup-msbuild@v1.3
+        if: steps.changes.outputs.src == 'true'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup Nuget
+        uses: NuGet/setup-nuget@v1.2
+        if: steps.changes.outputs.src == 'true'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1.2
+        if: steps.changes.outputs.src == 'true'
+
+      - name: Restore NuGet Packages
+        run: nuget restore "${{ env.solution }}.sln"
+        if: steps.changes.outputs.src == 'true'
+
+      - name: Build Release
+        if: steps.changes.outputs.src == 'true'
+        run: msbuild "${{ env.solution }}.sln" -m /p:Configuration=Release /p:RestoreLockedMode=true -verbosity:detailed
+
+      - name: Set version from file
+        if: steps.changes.outputs.src == 'true'
+        id: ver
+        run: |
+          echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Publish package to NuGet
+        if: steps.changes.outputs.src == 'true'
+        run: |
+          nuget pack ${{ env.solution }} -Version ${{ env.version }}
+          nuget push Src/${{ env.projectPath }}/bin/Release/${{ env.projectPath }}.${{ env.version }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
+
+      - name: Set env variables to output
+        if: steps.changes.outputs.src == 'true'
+        id: outvars
+        run: |    
+          echo "solution=${{ env.solution }}" >> $env:GITHUB_OUTPUT
+          echo "version=${{ env.version }}" >> $env:GITHUB_OUTPUT
+
+
+  create_release:
+    name: Create Release
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ needs.build.outputs.src == 'true' }}
+
+    steps:
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.13.0
+        id: create_release
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          tag: v${{ needs.build.outputs.version }}
+          name: Release v${{ needs.build.outputs.version }}
+          generateReleaseNotes: true
+          body: Release ${{ needs.build.outputs.version }} of ${{ needs.build.outputs.solution }}
+
+      - name: Send Webhook
+        uses: distributhor/workflow-webhook@v3
+        env:
+          webhook_type: 'json-extended'
+          event_name: 'release'
+          webhook_url: ${{ secrets.RELEASE_WEBHOOK_URL }}
+          webhook_secret: '{"x-github-release-token": "${{ secrets.RELEASE_WEBHOOK_TOKEN }}"}'
+          data: '{ "tag_name": "${{ github.run_number }}", "assets": [] }'
+
+  cleanup:
+    name: Cleanup
+    needs: create_release
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Remove artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: "*"
