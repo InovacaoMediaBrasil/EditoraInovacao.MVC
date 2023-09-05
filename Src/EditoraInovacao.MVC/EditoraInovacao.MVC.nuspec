@@ -13,7 +13,7 @@
     <description>$description$</description>
     <copyright>Copyright 2023 Guilherme Branco Stracini ME</copyright>
     <tags>Editora Inovação MVC Helpers .NET Framework</tags>
-    <readme>readme.md</readme>
+    <readme>README.md</readme>
     <dependencies>
       <group targetFramework=".NETFramework4.8"/>
     </dependencies>
@@ -21,6 +21,6 @@
   <files>
     <file src="bin\$configuration$\$id$.pdb" target="lib\net48\" />
     <file src="..\..\logo.png" />
-    <file src="..\..\readme.md" />
+    <file src="..\..\README.md" />
   </files>
 </package>
