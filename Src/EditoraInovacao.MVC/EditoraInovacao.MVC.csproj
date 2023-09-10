@@ -60,8 +60,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CrispyWaffle, Version=4.2.36.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrispyWaffle.4.2.36\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
+    <Reference Include="CrispyWaffle, Version=4.2.39.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\CrispyWaffle.4.2.39\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, PublicKeyToken=null">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
