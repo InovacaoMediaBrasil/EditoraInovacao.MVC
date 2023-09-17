@@ -112,7 +112,7 @@ jobs:
 
       - name: Build Debug
         if: steps.changes.outputs.src == 'true'
-        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=errors.txt;errorsonly" -flp2:"logfile=warnings.txt;warningsonly"
+        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
       - name: Set version from file
         if: steps.changes.outputs.src == 'true'
@@ -124,14 +124,14 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         id: warnings
         with:
-         path: warnings.txt
+         path: msbuild.warnings.log
 
       - name: Read errors.txt        
         uses: andstor/file-reader-action@v1
         if: steps.changes.outputs.src == 'true'
         id: errors
         with:
-         path: errors.txt
+         path: msbuild.errors.log
 
       - name: Update PR with comment (version)
         uses: mshick/add-pr-comment@v2        
@@ -222,4 +222,4 @@ jobs:
           description: ${{ job.status }}
           state: 'failure'
           sha: ${{ github.event.pull_request.head.sha || github.sha }}
-          target_url: ${{ env.GHA_URL }}      
+          target_url: ${{ env.GHA_URL }}
