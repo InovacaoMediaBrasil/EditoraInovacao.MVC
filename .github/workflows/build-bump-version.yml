@@ -22,7 +22,7 @@ env:
 jobs:
   updateVersion:
     name: Build & Patch
-    runs-on: self-hosted
+    runs-on: windows-latest
     permissions:
       pull-requests: write
 
