@@ -22,7 +22,7 @@ env:
 jobs:
   updateVersion:
     name: Build & Patch
-    runs-on: windows-latest
+    runs-on: self-hosted
     permissions:
       pull-requests: write
 
@@ -59,7 +59,8 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - uses: dorny/paths-filter@v2
+      - name: Check for changes in Src/ directory
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
@@ -111,15 +112,29 @@ jobs:
 
       - name: Build Debug
         if: steps.changes.outputs.src == 'true'
-        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed
+        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
       - name: Set version from file
         if: steps.changes.outputs.src == 'true'
         run: |
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+      
+      - name: Read warnings.txt
+        uses: andstor/file-reader-action@v1
+        if: steps.changes.outputs.src == 'true'
+        id: warnings
+        with:
+         path: msbuild.warnings.log
+
+      - name: Read errors.txt        
+        uses: andstor/file-reader-action@v1
+        if: steps.changes.outputs.src == 'true'
+        id: errors
+        with:
+         path: msbuild.errors.log
 
       - name: Update PR with comment (version)
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v2        
         if: steps.changes.outputs.src == 'true'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -162,14 +177,23 @@ jobs:
           message: |
             **Build debug & Version bump:** :white_check_mark: [Successfully builded and patched](${{ env.GHA_URL }}) **${{ env.solution }}.sln**.
             
-            Current version: **${{ env.version }}**
+            **Version:** :hash: ${{ env.version }}
+            **Warnings:** :warning:
+            ```
+            ${{ steps.warnings.outputs.contents }}
+            ```
           message-failure: |
             **Build debug & Version bump:** :x: [Failed](${{ env.GHA_URL }})
+
+            **Errors:** :no_entry:
+            ```
+            ${{ steps.errors.outputs.contents }}
+            ```
           message-cancelled: |
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
       - name: Set check as successfully after new commit
-        uses: LouisBrunner/checks-action@v1.6.2
+        uses: LouisBrunner/checks-action@v1.6.2        
         if: steps.changes.outputs.src == 'true'
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -178,7 +202,7 @@ jobs:
           output: |
             {"summary":"New version: ${{ env.version }}"}
 
-      - name: Update check run status (Success)
+      - name: Update check run status (Success)        
         uses: guibranco/github-status-action-v2@v1.1.7
         if: success() && steps.changes.outputs.src == 'true'
         with:
@@ -198,4 +222,4 @@ jobs:
           description: ${{ job.status }}
           state: 'failure'
           sha: ${{ github.event.pull_request.head.sha || github.sha }}
-          target_url: ${{ env.GHA_URL }}      
+          target_url: ${{ env.GHA_URL }}
