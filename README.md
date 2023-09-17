@@ -9,7 +9,6 @@
 [![Linter check](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/actions/workflows/linter.yml/badge.svg)](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/actions/workflows/linter.yml)
 [![Update packages](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/actions/workflows/update-packages.yml/badge.svg)](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/actions/workflows/update-packages.yml)
 
-
 ![logo.png](logo.png)
 
 .NET Framework MVC Helpers library
