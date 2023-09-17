@@ -134,7 +134,7 @@ jobs:
          path: msbuild.errors.log
 
       - name: Update PR with comment (version)
-        uses: mshick/add-pr-comment@v2        
+        uses: mshick/add-pr-comment@v2
         if: steps.changes.outputs.src == 'true'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -193,7 +193,7 @@ jobs:
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
       - name: Set check as successfully after new commit
-        uses: LouisBrunner/checks-action@v1.6.2        
+        uses: LouisBrunner/checks-action@v1.6.2
         if: steps.changes.outputs.src == 'true'
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -202,7 +202,7 @@ jobs:
           output: |
             {"summary":"New version: ${{ env.version }}"}
 
-      - name: Update check run status (Success)        
+      - name: Update check run status (Success)
         uses: guibranco/github-status-action-v2@v1.1.7
         if: success() && steps.changes.outputs.src == 'true'
         with:
