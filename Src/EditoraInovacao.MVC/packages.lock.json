@@ -4,9 +4,9 @@
     ".NETFramework,Version=v4.8": {
       "CrispyWaffle": {
         "type": "Direct",
-        "requested": "[4.2.39, 4.2.39]",
-        "resolved": "4.2.39",
-        "contentHash": "Kv/YYP6f3ddL+4h5IuAj7QdQRGXtAxn3Pf1MQIb0OtSAGpNFVm5JPW+y5giYwYEKT2bnEWv7f0d9VgpzWAY6Aw=="
+        "requested": "[4.2.53, 4.2.53]",
+        "resolved": "4.2.53",
+        "contentHash": "xY/AGVF9Nr5uMmA5gmIsCKekD6fvcIllcQsiHB/P5WnxYbjREPe8bxmpwMxdUw7ReuBeojGSRf/jLI9kNdMlnw=="
       },
       "Microsoft.AspNet.Mvc": {
         "type": "Direct",
@@ -34,9 +34,9 @@
       },
       "MSBuild.Version.Target": {
         "type": "Direct",
-        "requested": "[4.0.47, 4.0.47]",
-        "resolved": "4.0.47",
-        "contentHash": "N/wtc3FgpWiAJd7FJ6VW7jwSJmISQIUgcfPilE4STuKIp+CjuQc/4gZUkNvaSB5B+ljbI4TOmuDFlskk4nLMHg=="
+        "requested": "[4.0.60, 4.0.60]",
+        "resolved": "4.0.60",
+        "contentHash": "fEqUWj0k2k+QGZdzwL1XHIXRVqQC00Tz6lisUN/o7ZHEqXLM4d/yi8QqekRV7ntjjUZmFafabjuhtwi5Ntn0dQ=="
       },
       "MSBuildTasks": {
         "type": "Direct",
