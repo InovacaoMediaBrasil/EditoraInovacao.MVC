@@ -22,7 +22,7 @@ env:
 jobs:
   updateVersion:
     name: Build & Patch
-    runs-on: windows-latest
+    runs-on: self-hosted
     permissions:
       pull-requests: write
 
@@ -120,15 +120,15 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
-        uses: andstor/file-reader-action@v1
+        uses: guibranco/github-file-reader-action-v2@latest
         if: steps.changes.outputs.src == 'true'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
-        uses: andstor/file-reader-action@v1
-        if: steps.changes.outputs.src == 'true'
+        uses: guibranco/github-file-reader-action-v2@latest
+        if: failure() && steps.changes.outputs.src == 'true'
         id: errors
         with:
          path: msbuild.errors.log
@@ -145,12 +145,24 @@ jobs:
 
       - name: Set check as successfully before new commit
         uses: LouisBrunner/checks-action@v1.6.2
+        if: success()
         with:
           token: ${{ steps.generate_token.outputs.token }}
           conclusion: 'success'
           check_id: ${{ steps.generate_check.outputs.check_id }}
           output: |
             {"summary":"New version: ${{ env.version }}"}
+
+      - name: Set check as successfully before new commit
+        uses: LouisBrunner/checks-action@v1.6.2
+        if: failure()
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          conclusion: 'action_required'
+          action_url: ${{ env.GHA_URL }}
+          check_id: ${{ steps.generate_check.outputs.check_id }}
+          output: |
+            {"summary":"Build failed!"}
 
       - name: Setup GIT config
         if: steps.changes.outputs.src == 'true'
