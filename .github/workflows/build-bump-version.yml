@@ -22,7 +22,7 @@ env:
 jobs:
   updateVersion:
     name: Build & Patch
-    runs-on: self-hosted
+    runs-on: windows-latest
     permissions:
       pull-requests: write
 
@@ -153,7 +153,7 @@ jobs:
           output: |
             {"summary":"New version: ${{ env.version }}"}
 
-      - name: Set check as successfully before new commit
+      - name: Set check as action required before new commit
         uses: LouisBrunner/checks-action@v1.6.2
         if: failure()
         with:
