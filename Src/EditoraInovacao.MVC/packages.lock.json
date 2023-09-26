@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    ".NETFramework,Version=v4.8": {
+    "Any,Version=v0.0": {
       "CrispyWaffle": {
         "type": "Direct",
         "requested": "[4.2.66, 4.2.66]",
