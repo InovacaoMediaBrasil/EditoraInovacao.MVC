@@ -4,9 +4,9 @@
     ".NETFramework,Version=v4.8": {
       "CrispyWaffle": {
         "type": "Direct",
-        "requested": "[4.2.126, 4.2.126]",
-        "resolved": "4.2.126",
-        "contentHash": "9yxSjmZ2GRRenzc0GOkU+Pv5x1TlhceHlLXRkozFQRG00812QjO0hdmlCxKbXlgZFgMi6Ql3fdUvoQCmXk4QKQ=="
+        "requested": "[4.2.128, 4.2.128]",
+        "resolved": "4.2.128",
+        "contentHash": "9Nt5/pw43j2pfYvGNnjuj4WUaIk+ZKh1EqgiaLhn/8KkvT2nbQcdGkJgV5Jk9ZkUtereFYn/lI1TGmUVaXjB/A=="
       },
       "Microsoft.AspNet.Mvc": {
         "type": "Direct",
