@@ -28,6 +28,52 @@ dotnet add package EditoraInovacao.MVC
 
 ---
 
+## Features
+
+- Controller
+- EmptyController
+- EnumFlagsModelBinder
+- ExtendedSelectListItem
+- NewtonsoftJsonResult
+- ViewRenderer
+
+### Controller
+
+A base controller that adds two results:
+
+- JsonResult - Generates a [NewtonsoftJsonResult](#NewtonsoftJsonResult) result.
+- ErrorResponse - Generates a JsonResult with ErrorResponse type, including custom code, custom error message and any ModelState errors key/message pair.
+
+### EmptyController
+
+An empty controller class that derives from [Controller](#Controller).
+
+### EnumFlagsModelBinder
+
+Adds a model binder that enables binding of a flag enum in the model, allowing multiple flag selection.
+
+### ExtendedSelectListItem
+
+A class that extends the System.Web.Mvc.SelectListItem with a new property named HtmlAttributes that can be used with ViewHelpers to send custom HTML properties/attributes from Model to View.
+
+### NewtonsoftJsonResult
+
+Extends JsonResult with custom JSON serialization settings. 
+
+- Formatting.Indented
+- ReferenceLoopHandling.Ignore
+
+### ViewRenderer
+
+A helper class that enables view rendering on demand.
+Expose the following 3 methods:
+
+- CreateController - Creates an instance of a Controller (can be any valid controller)
+- RenderView - Renders a view based on the view's name and an object as the model for that view. It uses the [EmptyController](#EmptyController) as the controller.
+- RenderView - Extension method for a Controller class, that renders a view based on the view's name and an object as the model for that view.
+ 
+---
+
 Developed by [Guilherme Branco Stracini](https://www.guilhermebranco.com.br) for [Editora Inovação](https://www.editorainovacao.com.br) 
 
 © 2012 ~ 2023 All rights reserved.
