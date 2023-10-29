@@ -4,27 +4,27 @@
     ".NETFramework,Version=v4.8": {
       "CrispyWaffle": {
         "type": "Direct",
-        "requested": "[4.2.128, 4.2.128]",
-        "resolved": "4.2.128",
-        "contentHash": "9Nt5/pw43j2pfYvGNnjuj4WUaIk+ZKh1EqgiaLhn/8KkvT2nbQcdGkJgV5Jk9ZkUtereFYn/lI1TGmUVaXjB/A=="
+        "requested": "[4.2.164, 4.2.164]",
+        "resolved": "4.2.164",
+        "contentHash": "k3RyEqouOcEJecbYbcpdBgqiiJYmNm1nsF/KggLfHh8A+X4QA8oX6k+0z3ifvnv6gYO44W+LK0nMNmSYM7Xv9w=="
       },
       "Microsoft.AspNet.Mvc": {
         "type": "Direct",
-        "requested": "[5.2.9, 5.2.9]",
-        "resolved": "5.2.9",
-        "contentHash": "bcekKshCAh7kTWSMZPavQStSZQF/QmjEjO2gVWGITEd0/t5eRlb+ZLDE+az2qY1bZ8L6Hz0OCNeS0uzXtJcK5w=="
+        "requested": "[5.3.0, 5.3.0]",
+        "resolved": "5.3.0",
+        "contentHash": "Q1LcXRqTPmbXJAdf45PsxI6JYnCQP4vBfPCgDFd4dYf8ojxFTo4PH333PC4TzbOqRHxrUWGwgBdcR5T2jNwpHQ=="
       },
       "Microsoft.AspNet.Razor": {
         "type": "Direct",
-        "requested": "[3.2.9, 3.2.9]",
-        "resolved": "3.2.9",
-        "contentHash": "QOJEnEw3xp+t5lMvYR5nGCF4CfZpHqr2p8uZOBEgDZoB6r2txtSj6581YNr+/dOHjI3YRlo1QAKGQoSohbQ/KA=="
+        "requested": "[3.3.0, 3.3.0]",
+        "resolved": "3.3.0",
+        "contentHash": "5vJ0UKE/n381qcaKwFHxCwzb/YVuHzrm155iTgQhiv7+xdg2PE+54u+NPqu6C9AeRVOiwbh8/EOZwD16bLvWkg=="
       },
       "Microsoft.AspNet.WebPages": {
         "type": "Direct",
-        "requested": "[3.2.9, 3.2.9]",
-        "resolved": "3.2.9",
-        "contentHash": "yByb721lwv8YFsx1oKA5CLKXa89XVbVMkPafS4bg/bPelBEgChq/coFBQEkA4kwcabG7AR56w3vapnoZUfr2Cw=="
+        "requested": "[3.3.0, 3.3.0]",
+        "resolved": "3.3.0",
+        "contentHash": "2ATJrA8KNx2EpBWNjwy4P+NjQ06cZWjYsTZ5NqGNIHaU/i3NKmtpoaE90NGmVRaKF5rryGfADnvPQ56f61OuWg=="
       },
       "Microsoft.Web.Infrastructure": {
         "type": "Direct",
