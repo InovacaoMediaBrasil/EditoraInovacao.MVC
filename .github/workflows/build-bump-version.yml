@@ -22,7 +22,7 @@ env:
 jobs:
   updateVersion:
     name: Build & Patch
-    runs-on: windows-latest
+    runs-on: self-hosted
     permissions:
       pull-requests: write
 
@@ -114,19 +114,35 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
-      - name: Set version from file
+      - name: Set version from the file
         if: steps.changes.outputs.src == 'true'
         run: |
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
-      
-      - name: Read warnings.txt
+
+      - name: Upload artifact warnings debug
+        uses: actions/upload-artifact@v3
+        if: steps.changes.outputs.src == 'true'
+        with:
+          name: msbuild-warnings-debug
+          path: |
+                msbuild.warnings.log
+
+      - name: Upload artifact errors debug
+        uses: actions/upload-artifact@v3
+        if: failure() && steps.changes.outputs.src == 'true'
+        with:
+          name: msbuild-errors-debug
+          path: |
+                msbuild.errors.log
+
+      - name: Read msbuild.warnings.log
         uses: guibranco/github-file-reader-action-v2@latest
         if: steps.changes.outputs.src == 'true'
         id: warnings
         with:
          path: msbuild.warnings.log
 
-      - name: Read errors.txt        
+      - name: Read msbuild.errors.log
         uses: guibranco/github-file-reader-action-v2@latest
         if: failure() && steps.changes.outputs.src == 'true'
         id: errors
@@ -153,7 +169,7 @@ jobs:
           output: |
             {"summary":"New version: ${{ env.version }}"}
 
-      - name: Set check as action required before new commit
+      - name: Set check as "action required" before new commit
         uses: LouisBrunner/checks-action@v1.6.2
         if: failure()
         with:
@@ -162,9 +178,9 @@ jobs:
           action_url: ${{ env.GHA_URL }}
           check_id: ${{ steps.generate_check.outputs.check_id }}
           output: |
-            {"summary":"Build failed!"}
+            {"summary": "Build failed!"}
 
-      - name: Setup GIT config
+      - name: Setup GIT
         if: steps.changes.outputs.src == 'true'
         run: |
           git config user.name "net-framework-updater[bot]"
@@ -204,7 +220,7 @@ jobs:
           message-cancelled: |
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
-      - name: Set check as successfully after new commit
+      - name: Set check as successfully after a new commit
         uses: LouisBrunner/checks-action@v1.6.2
         if: steps.changes.outputs.src == 'true'
         with:
