@@ -4,9 +4,9 @@
     ".NETFramework,Version=v4.8": {
       "CrispyWaffle": {
         "type": "Direct",
-        "requested": "[4.3.4, 4.3.4]",
-        "resolved": "4.3.4",
-        "contentHash": "m9uBgUur5XBATf0TGoUK4kCHYhl43kqJBBduweutiOP9cyFuZIAfpGSnIpHjDpyzZNE3OX7fiTqCVhOCQrGCxg=="
+        "requested": "[4.3.71, 4.3.71]",
+        "resolved": "4.3.71",
+        "contentHash": "hgMEwmDgZUfiRNBuQsYxebSV69TyES30fKV+x8NlOHaqK4nCuWwUmbA09TrIhV3TtfLmGN5K8FosbM4ucAW5tA=="
       },
       "Microsoft.AspNet.Mvc": {
         "type": "Direct",
@@ -34,9 +34,9 @@
       },
       "MSBuild.Version.Target": {
         "type": "Direct",
-        "requested": "[4.0.60, 4.0.60]",
-        "resolved": "4.0.60",
-        "contentHash": "fEqUWj0k2k+QGZdzwL1XHIXRVqQC00Tz6lisUN/o7ZHEqXLM4d/yi8QqekRV7ntjjUZmFafabjuhtwi5Ntn0dQ=="
+        "requested": "[4.0.65, 4.0.65]",
+        "resolved": "4.0.65",
+        "contentHash": "3WSepFANaavnP4xeXcy9tkEL2i2LRxd2tbhP4Vmga/1vNiMEAZgYyjVK2a8W1tDZMgY2nT6F71uxXbn6NWAznQ=="
       },
       "MSBuildTasks": {
         "type": "Direct",
@@ -52,9 +52,9 @@
       },
       "System.Diagnostics.EventLog": {
         "type": "Direct",
-        "requested": "[7.0.0, 7.0.0]",
-        "resolved": "7.0.0",
-        "contentHash": "eUDP47obqQm3SFJfP6z+Fx2nJ4KKTQbXB4Q9Uesnzw9SbYdhjyoGXuvDn/gEmFY6N5Z3bFFbpAQGA7m6hrYJCw=="
+        "requested": "[8.0.0, 8.0.0]",
+        "resolved": "8.0.0",
+        "contentHash": "fdYxcRjQqTTacKId/2IECojlDSFvp7LP5N78+0z/xH7v/Tuw5ZAxu23Y6PTCRinqyu2ePx+Gn1098NC6jM6d+A=="
       },
       "System.Security.AccessControl": {
         "type": "Direct",
