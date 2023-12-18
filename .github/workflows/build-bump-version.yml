@@ -120,7 +120,7 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Upload artifact warnings debug
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: steps.changes.outputs.src == 'true'
         with:
           name: msbuild-warnings-debug
@@ -128,7 +128,7 @@ jobs:
                 msbuild.warnings.log
 
       - name: Upload artifact errors debug
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure() && steps.changes.outputs.src == 'true'
         with:
           name: msbuild-errors-debug
