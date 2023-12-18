@@ -42,9 +42,10 @@ public static class ViewRenderer
             && !routeData.Values.ContainsKey("Controller")
         )
         {
-            routeData
-                .Values
-                .Add("controller", controller.GetType().Name.ToLower().Replace("controller", ""));
+            routeData.Values.Add(
+                "controller",
+                controller.GetType().Name.ToLower().Replace("controller", "")
+            );
         }
 
         controller.ControllerContext = new ControllerContext(wrapper, routeData, controller);
@@ -83,9 +84,10 @@ public static class ViewRenderer
 
         controller.ViewData.Model = model;
         using var sw = new StringWriter();
-        var viewResult = ViewEngines
-            .Engines
-            .FindPartialView(controller.ControllerContext, viewName);
+        var viewResult = ViewEngines.Engines.FindPartialView(
+            controller.ControllerContext,
+            viewName
+        );
         var viewContext = new ViewContext(
             controller.ControllerContext,
             viewResult.View,
