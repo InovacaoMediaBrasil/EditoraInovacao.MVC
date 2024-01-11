@@ -2,8 +2,8 @@ repo_name: InovacaoMediaBrasil/EditoraInovacao.MVC
 report_id: c2203ce34ee59c04372835edd95a879d
 version: 0.1
 repo_type: Public
-timestamp: '2023-12-27T19:58:56+00:00'
-requested_by: dependabot[bot]
+timestamp: '2024-01-11T12:24:28+00:00'
+requested_by: stack-file[bot]
 provider: github
 branch: main
 detected_tools_count: 8
@@ -31,6 +31,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1015/1200px-C_Sharp_wordmark.svg.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC
   detection_source: Repo Metadata
 - name: ".NET"
   description: A free, cross-platform, open source developer platform for building
@@ -42,6 +43,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Frameworks (Full Stack)
   image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/blob/main/Src/EditoraInovacao.MVC/packages.config
   detection_source: Src/EditoraInovacao.MVC/packages.config
   last_updated_by: Guilherme Branco Stracini
   last_updated_on: 2023-09-05 23:07:01.000000000 Z
@@ -53,6 +55,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -62,6 +65,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/blob/main/.github/workflows/build-bump-version.yml
   detection_source: ".github/workflows/build-bump-version.yml"
   last_updated_by: dependabot[bot]
   last_updated_on: 2023-12-18 23:34:16.000000000 Z
@@ -73,6 +77,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Package Managers
   image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/blob/main/Src/EditoraInovacao.MVC/packages.config
   detection_source: Src/EditoraInovacao.MVC/packages.config
   last_updated_by: Guilherme Branco Stracini
   last_updated_on: 2023-09-05 23:07:01.000000000 Z
@@ -85,6 +90,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Integrated Development Environment
   image_url: https://img.stackshare.io/service/1451/SR2hUhQN.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC/blob/main/EditoraInovacao.MVC.sln
   detection_source: EditoraInovacao.MVC.sln
   last_updated_by: Guilherme Branco Stracini
   last_updated_on: 2023-09-05 23:07:01.000000000 Z
@@ -97,4 +103,5 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC
   detection_source: Repo Metadata
