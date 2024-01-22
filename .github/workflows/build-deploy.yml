@@ -48,7 +48,7 @@ jobs:
           echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: steps.changes.outputs.src == 'true'
         with:
           path: ~\sonar\cache
@@ -57,7 +57,7 @@ jobs:
 
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: steps.changes.outputs.src == 'true'
         with:
           path: .\.sonar\scanner
