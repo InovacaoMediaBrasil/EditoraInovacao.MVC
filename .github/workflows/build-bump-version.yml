@@ -60,7 +60,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Check for changes in Src/ directory
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
