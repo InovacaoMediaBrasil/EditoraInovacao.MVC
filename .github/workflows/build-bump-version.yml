@@ -45,7 +45,7 @@ jobs:
             **Build debug & Version bump:** :beginner: [Build started](${{ env.GHA_URL }})
 
       - name: Generate check
-        uses: LouisBrunner/checks-action@v1.6.2
+        uses: LouisBrunner/checks-action@v2.0.0
         id: generate_check
         if: always()
         with:
@@ -160,7 +160,7 @@ jobs:
             **Build debug & Version bump:** :dart: [Build succeeded](${{ env.GHA_URL }}) - New version: ${{ env.version }}
 
       - name: Set check as successfully before new commit
-        uses: LouisBrunner/checks-action@v1.6.2
+        uses: LouisBrunner/checks-action@v2.0.0
         if: success()
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -170,7 +170,7 @@ jobs:
             {"summary":"New version: ${{ env.version }}"}
 
       - name: Set check as "action required" before new commit
-        uses: LouisBrunner/checks-action@v1.6.2
+        uses: LouisBrunner/checks-action@v2.0.0
         if: failure()
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -221,7 +221,7 @@ jobs:
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
       - name: Set check as successfully after a new commit
-        uses: LouisBrunner/checks-action@v1.6.2
+        uses: LouisBrunner/checks-action@v2.0.0
         if: steps.changes.outputs.src == 'true'
         with:
           token: ${{ steps.generate_token.outputs.token }}
