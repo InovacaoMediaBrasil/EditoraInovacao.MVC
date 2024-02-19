@@ -231,7 +231,7 @@ jobs:
             {"summary":"New version: ${{ env.version }}"}
 
       - name: Update check run status (Success)
-        uses: guibranco/github-status-action-v2@v1.1.7
+        uses: guibranco/github-status-action-v2@v1.1.13
         if: success() && steps.changes.outputs.src == 'true'
         with:
           authToken: ${{ steps.generate_token.outputs.token }}
@@ -242,7 +242,7 @@ jobs:
           target_url: ${{ env.GHA_URL }}
 
       - name: Update check run status (Failure or Cancellation)
-        uses: guibranco/github-status-action-v2@v1.1.7
+        uses: guibranco/github-status-action-v2@v1.1.13
         if: failure() || cancelled()
         with:
           authToken: ${{ steps.generate_token.outputs.token }}
