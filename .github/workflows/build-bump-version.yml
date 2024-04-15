@@ -93,7 +93,7 @@ jobs:
             **Build debug & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
 
       - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v1.3
+        uses: microsoft/setup-msbuild@v2
         if: steps.changes.outputs.src == 'true'
         with:
           msbuild-architecture: x64
