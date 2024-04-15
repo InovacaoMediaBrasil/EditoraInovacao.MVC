@@ -72,7 +72,7 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
       - name: Setup MSBuild Path
-        uses: microsoft/setup-msbuild@v1.3
+        uses: microsoft/setup-msbuild@v2
         if: steps.changes.outputs.src == 'true'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
