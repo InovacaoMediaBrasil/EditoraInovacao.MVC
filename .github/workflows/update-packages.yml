@@ -64,7 +64,7 @@ jobs:
           git config --global --add --bool push.autoSetupRemote true
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v19
+        uses: tj-actions/verify-changed-files@v20
         id: verify-changed-files
 
       - name: Commit and Push
