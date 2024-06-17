@@ -77,3 +77,5 @@ Expose the following 3 methods:
 Developed by [Guilherme Branco Stracini](https://www.guilhermebranco.com.br) for [Editora Inovação](https://www.editorainovacao.com.br) 
 
 © 2012 ~ 2023 All rights reserved.
+
+---
