@@ -1,5 +1,7 @@
 # Editora Inovação - MVC Helpers
 
+The Nuget package with some MVC (.NET Framework) helpers
+
 [![wakatime](https://wakatime.com/badge/github/InovacaoMediaBrasil/EditoraInovacao.MVC.svg)](https://wakatime.com/badge/github/InovacaoMediaBrasil/EditoraInovacao.MVC)
 [![GitHub license](https://img.shields.io/github/license/InovacaoMediaBrasil/EditoraInovacao.MVC)](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC)
 [![GitHub last commit](https://img.shields.io/github/last-commit/InovacaoMediaBrasil/EditoraInovacao.MVC/main)](https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC)
