@@ -32,12 +32,6 @@
         "resolved": "2.0.0",
         "contentHash": "NA6F00drSYd4HZk7QcyMRz1EEdZQQpcdnt6DfNiurNcUNsmmRDpz9db2Bc3L3Lgo455BOSwNDuNjbhDLltKGKQ=="
       },
-      "MSBuild.Version.Target": {
-        "type": "Direct",
-        "requested": "[4.0.65, 4.0.65]",
-        "resolved": "4.0.65",
-        "contentHash": "3WSepFANaavnP4xeXcy9tkEL2i2LRxd2tbhP4Vmga/1vNiMEAZgYyjVK2a8W1tDZMgY2nT6F71uxXbn6NWAznQ=="
-      },
       "MSBuildTasks": {
         "type": "Direct",
         "requested": "[1.5.0.235, 1.5.0.235]",

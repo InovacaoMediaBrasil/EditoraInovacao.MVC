@@ -2,11 +2,10 @@ name: Ping Healthchecks.io
 
 on:
   workflow_run:
-    workflows: ['Update packages']
+    workflows: ["Update packages"]
     types: [requested, completed]
 
 jobs:
-
   Ping-Started:
     runs-on: ubuntu-latest
     if: ${{ github.event.action == 'requested' }}
