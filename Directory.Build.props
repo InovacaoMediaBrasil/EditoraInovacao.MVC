@@ -8,7 +8,7 @@
 
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-    <Copyright>Copyright © 2023 ~ $([System.DateTime]::Now.Year) Guilherme Branco Stracini ME</Copyright>   
+    <Copyright>Copyright © 2024 ~ $([System.DateTime]::Now.Year) Guilherme Branco Stracini ME</Copyright>   
     <PackageProjectUrl>https://inovacaomediabrasil.github.io/Editorainovacao.MVC</PackageProjectUrl>
     <RepositoryUrl>https://github.com/InovacaoMediaBrasil/EditoraInovacao.MVC</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>

@@ -1,0 +1,181 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "**"
+      - "!main"
+  workflow_dispatch:
+
+concurrency:
+  group: build
+  cancel-in-progress: true
+
+env:
+  GHA_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Update PR with comment (build started)
+        uses: mshick/add-pr-comment@v2
+        with:
+          refresh-message-position: true
+          message-id: "begin"
+          message: |
+            **Build:** :beginner: [Build started](${{ env.GHA_URL }})
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in Src/ directory
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - "Src/**"
+
+      - name: Set solution name
+        run: |
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "projectPath=$((Get-ChildItem -Path .\Src\ -Directory | Select-Object -First 1).Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Update PR with comment (build started solution)
+        uses: mshick/add-pr-comment@v2
+        if: steps.changes.outputs.src == 'true'
+        with:
+          refresh-message-position: true
+          message-id: "begin"
+          message: |
+            **Build:** :beginner: [Building ${{ env.solution }}.sln](${{ env.GHA_URL }})
+
+      - name: Update PR with comment (build started solution)
+        uses: mshick/add-pr-comment@v2
+        if: steps.changes.outputs.src == 'false'
+        with:
+          refresh-message-position: true
+          message-id: "begin"
+          message: |
+            **Build:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 21
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        if: steps.changes.outputs.src == 'true'
+        with:
+          msbuild-architecture: x64
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v2
+        if: steps.changes.outputs.src == 'true'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Restore NuGet packages
+        if: steps.changes.outputs.src == 'true'
+        run: nuget restore "${{ env.solution }}.sln"
+
+      - name: Build Release
+        if: steps.changes.outputs.src == 'true'
+        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Release -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
+
+      - name: Upload artifact warnings debug
+        uses: actions/upload-artifact@v4
+        if: steps.changes.outputs.src == 'true'
+        with:
+          name: msbuild-warnings-debug
+          path: |
+            msbuild.warnings.log
+
+      - name: Upload artifact errors debug
+        uses: actions/upload-artifact@v4
+        if: failure() && steps.changes.outputs.src == 'true'
+        with:
+          name: msbuild-errors-debug
+          path: |
+            msbuild.errors.log
+
+      - name: Read msbuild.warnings.log
+        uses: guibranco/github-file-reader-action-v2@latest
+        if: steps.changes.outputs.src == 'true'
+        id: warnings
+        with:
+          path: msbuild.warnings.log
+
+      - name: Read msbuild.errors.log
+        uses: guibranco/github-file-reader-action-v2@latest
+        if: failure() && steps.changes.outputs.src == 'true'
+        id: errors
+        with:
+          path: msbuild.errors.log
+
+      - name: Update PR with comment
+        uses: mshick/add-pr-comment@v2
+        if: steps.changes.outputs.src == 'true'
+        with:
+          refresh-message-position: true
+          message-id: "version"
+          message: |
+            **Build:** :dart: [Build succeeded](${{ env.GHA_URL }})
+
+      - name: Update PR with comment
+        uses: mshick/add-pr-comment@v2
+        if: always() && steps.changes.outputs.src == 'true'
+        with:
+          refresh-message-position: true
+          message-id: "final"
+          message: |
+            **Build:** :white_check_mark: [Successfully builded](${{ env.GHA_URL }}) **${{ env.solution }}.sln**.
+
+            **Warnings:** :warning:
+            ```
+            ${{ steps.warnings.outputs.contents }}
+            ```
+          message-failure: |
+            **Build:** :x: [Failed](${{ env.GHA_URL }})
+
+            **Errors:** :no_entry:
+            ```
+            ${{ steps.errors.outputs.contents }}
+            ```
+          message-cancelled: |
+            **Build:** :o: [Cancelled](${{ env.GHA_URL }})

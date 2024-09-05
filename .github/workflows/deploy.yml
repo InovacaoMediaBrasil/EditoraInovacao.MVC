@@ -1,8 +1,8 @@
-name: Build & Deploy
+name: Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -15,15 +15,26 @@ jobs:
     runs-on: windows-latest
     outputs:
       solution: ${{ steps.outvars.outputs.solution }}
-      version: ${{ steps.outvars.outputs.version }}
       changes: ${{ steps.changes.outputs.src }}
+      fullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: "5.x"
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v3.0.0
+        with:
+          useConfigFile: true
+          updateAssemblyInfo: true
 
       - uses: dorny/paths-filter@v3
         id: changes
@@ -36,8 +47,8 @@ jobs:
         uses: actions/setup-java@v4
         if: steps.changes.outputs.src == 'true'
         with:
-          distribution: 'temurin'
-          java-version: 19.0.2+7
+          distribution: "temurin"
+          java-version: 21
 
       - name: Set environment variables
         if: steps.changes.outputs.src == 'true'
@@ -91,12 +102,6 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: msbuild "${{ env.solution }}.sln" -m /p:Configuration=Release /p:RestoreLockedMode=true -verbosity:detailed
 
-      - name: Set version from file
-        if: steps.changes.outputs.src == 'true'
-        id: ver
-        run: |
-          echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
-
       - name: Publish package to NuGet
         if: steps.changes.outputs.src == 'true'
         run: |
@@ -106,9 +111,8 @@ jobs:
       - name: Set env variables to output
         if: steps.changes.outputs.src == 'true'
         id: outvars
-        run: |    
+        run: |
           echo "solution=${{ env.solution }}" >> $env:GITHUB_OUTPUT
-          echo "version=${{ env.version }}" >> $env:GITHUB_OUTPUT
 
   create_release:
     name: Create Release
@@ -117,7 +121,6 @@ jobs:
     if: ${{ needs.build.outputs.changes == 'true' }}
 
     steps:
-
       - name: Create Release
         uses: ncipollo/release-action@v1.14.0
         id: create_release
@@ -125,19 +128,19 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          tag: v${{ needs.build.outputs.version }}
-          name: Release v${{ needs.build.outputs.version }}
+          tag: v${{ env.fullSemVer }}
+          name: Release v${{ env.fullSemVer }}
           generateReleaseNotes: true
-          body: Release ${{ needs.build.outputs.version }} of ${{ needs.build.outputs.solution }}
+          body: Release ${{ env.fullSemVer }} of ${{ github.repository }}
 
       - name: Send Webhook
         uses: distributhor/workflow-webhook@v3
-        env:
-          webhook_type: 'json-extended'
-          event_name: 'release'
+        with:
+          webhook_type: "json-extended"
+          event_name: "release"
           webhook_url: ${{ secrets.RELEASE_WEBHOOK_URL }}
           webhook_secret: '{"x-github-release-token": "${{ secrets.RELEASE_WEBHOOK_TOKEN }}"}'
-          data: '{ "tag_name": "${{ github.run_number }}", "assets": [] }'
+          data: '{ "tag_name": "v${{ env.fullSemVer }}", "assets": [] }'
 
   cleanup:
     name: Cleanup
@@ -145,7 +148,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Remove artifacts
         uses: geekyeggo/delete-artifact@v5
         with:
