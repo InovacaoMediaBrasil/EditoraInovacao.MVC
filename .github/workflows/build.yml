@@ -118,19 +118,19 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Release -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
-      - name: Upload artifact warnings debug
+      - name: Upload artifact warnings 
         uses: actions/upload-artifact@v4
         if: steps.changes.outputs.src == 'true'
         with:
-          name: msbuild-warnings-debug
+          name: msbuild-warnings
           path: |
             msbuild.warnings.log
 
-      - name: Upload artifact errors debug
+      - name: Upload artifact errors 
         uses: actions/upload-artifact@v4
         if: failure() && steps.changes.outputs.src == 'true'
         with:
-          name: msbuild-errors-debug
+          name: msbuild-errors
           path: |
             msbuild.errors.log
 
