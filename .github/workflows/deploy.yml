@@ -106,7 +106,7 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: |
           nuget pack Src/${{ env.projectPath }} -Version ${{ env.version }} -Prop Configuration=Release
-          nuget push ${{ env.projectPath }}.${{ env.version }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
+          nuget push ${{ env.projectPath }}.${{ env.fullSemVer }}.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
 
       - name: Set env variables to output
         if: steps.changes.outputs.src == 'true'
