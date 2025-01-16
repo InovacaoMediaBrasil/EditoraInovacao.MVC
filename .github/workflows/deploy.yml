@@ -119,6 +119,8 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     if: ${{ needs.build.outputs.changes == 'true' }}
+    permissions:
+      contents: write
 
     steps:
       - name: Create Release
