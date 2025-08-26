@@ -95,7 +95,7 @@ jobs:
           ref: feature/update_dependencies_${{ github.run_number }}
 
       - name: Create pull request
-        uses: devops-infra/action-pull-request@v0.6.0
+        uses: devops-infra/action-pull-request@v0.6.1
         with:
           github_token: ${{ steps.generate_token.outputs.token }}
           source_branch: feature/update_dependencies_${{ github.run_number }}
