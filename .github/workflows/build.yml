@@ -33,7 +33,7 @@ jobs:
             **Build:** :beginner: [Build started](${{ env.GHA_URL }})
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
